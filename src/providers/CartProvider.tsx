@@ -13,7 +13,7 @@ type CartType = {
     addItem: (product: Product, size: CartItem['size']) => void;
     updateQuantity: (itemId: String, amount: -1 | 1) => void;
     total: number,
-    checkout: () => void
+    checkout: (tip: number) => void
 }
 const CartContext = createContext<CartType>({
     items: [],
@@ -74,15 +74,17 @@ const CartProvider = ({ children }: PropsWithChildren ) => {
         }})
     }
 
-    const checkout = async () => {
-        await initializePaymentSheet(Math.floor(total * 100));
+    const checkout = async (tip: number) => {
+        const totalTip = total + tip;
+
+        await initializePaymentSheet(Math.floor(totalTip * 100));
         const paid = await openPaymentSheet();
 
         if (!paid) {
             return;
         }
 
-        insertOrder({ total }, { onSuccess: saveOrderItems})
+        insertOrder({ total: totalTip }, { onSuccess: saveOrderItems})
     }
 
     return (
