@@ -34,6 +34,14 @@
     "experiments": {
       "typedRoutes": true,
       "tsConfigPaths": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "94be876a-84c4-47a2-be30-479224bd4ca1"
+      }
     }
   }
 }
