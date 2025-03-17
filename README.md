@@ -1,16 +1,13 @@
 ## Project Features and Improvements
 
 ### User Features
-1. Tipping Feature
-I implemented a tipping functionality that allows users to add a tip for the delivery driver during the checkout process. Users can enter a custom amount, and the tip is added to the total price during checkout and charged correctly through Stripe.
+1. Tipping Feature: I implemented a tipping functionality that allows users to add a tip for the delivery driver during the checkout process. Users can enter a custom amount, and the tip is added to the total price during checkout and charged correctly through Stripe.
 
-2. Order Cancellation
-I implemented a feature that allows users to cancel their orders, provided that the order had just been created and the order status is still 'New'. Once cancelled, it is reflected on the order details page.
+2. Order Cancellation: I implemented a feature that allows users to cancel their orders, provided that the order had just been created and the order status is still 'New'. Once cancelled, it is reflected on the order details page.
 
 ### Admin Features
 
-1. Order Management and Archival
-On the admin side, I implemented functionality to manage the cancelled orders. If the user cancelled their order, the order will automatically transition from the active tab to the archived tab, allowing the admins to easily track and manage the statuses of orders.
+1. Order Management and Archival: On the admin side, I implemented functionality to manage the cancelled orders. If the user cancelled their order, the order will automatically transition from the active tab to the archived tab, allowing the admins to easily track and manage the statuses of orders.
 
 ## What I Learned
 
