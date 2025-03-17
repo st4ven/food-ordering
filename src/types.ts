@@ -30,13 +30,14 @@ export type CartItem = {
 };
 
 export const OrderStatusList: OrderStatus[] = [
+  'Cancelled',
   'New',
   'Cooking',
   'Delivering',
   'Delivered',
 ];
 
-export type OrderStatus = 'New' | 'Cooking' | 'Delivering' | 'Delivered';
+export type OrderStatus = 'Cancelled' | 'New' | 'Cooking' | 'Delivering' | 'Delivered';
 
 export type Order = {
   id: number;

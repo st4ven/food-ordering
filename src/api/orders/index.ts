@@ -4,7 +4,8 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { InsertTables, UpdateTables } from "@/src/types";
 
 export const useAdminOrderList = ({ archived = false }) => {
-    const statuses = archived ? ['Delivered'] : ['New', 'Cooking', 'Delivering'];
+    // update the admin order list to include cancelled orders
+    const statuses = archived ? ['Delivered', 'Cancelled'] : ['New', 'Cooking', 'Delivering'];
 
     return useQuery({
         queryKey: ['orders', { archived }],
@@ -63,7 +64,7 @@ export const useInsertOrder = () => {
     const userId = session?.user.id;
 
     return useMutation({
-        async mutationFn(data : InsertTables<'orders'>) {
+        async mutationFn(data: InsertTables<'orders'>) {
             const { data: newProduct, error } = await supabase.from('orders').insert({ ...data, user_id: userId }).select().single()
 
             if (error) {
@@ -80,10 +81,10 @@ export const useInsertOrder = () => {
 }
 
 export const useUpdateOrder = () => {
-  const queryClient = useQueryClient();
+    const queryClient = useQueryClient();
 
     return useMutation({
-        async mutationFn({ id, updatedFields}: {id: number, updatedFields: UpdateTables<'orders'>}) {
+        async mutationFn({ id, updatedFields }: { id: number, updatedFields: UpdateTables<'orders'> }) {
             const { data: updatedOrder, error } = await supabase.from('orders').update(updatedFields).eq('id', id).select().single()
 
             if (error) {
@@ -97,4 +98,25 @@ export const useUpdateOrder = () => {
             await queryClient.invalidateQueries({ queryKey: ['orders', id] });
         },
     })
+};
+
+export const useCancelOrder = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        async mutationFn(orderId: number) {
+            const { error } = await supabase
+                .from('orders')
+                .update({ status: 'Cancelled' })
+                .eq('id', orderId);
+
+            if (error) {
+                throw new Error(error.message);
+            }
+        },
+        async onSuccess() {
+            // Invalidate the 'orders' query to refresh the list and reflect the cancellation
+            await queryClient.invalidateQueries({ queryKey: ['orders'] });
+        }
+    });
 };
