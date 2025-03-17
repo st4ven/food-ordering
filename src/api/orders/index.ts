@@ -115,7 +115,6 @@ export const useCancelOrder = () => {
             }
         },
         async onSuccess() {
-            // Invalidate the 'orders' query to refresh the list and reflect the cancellation
             await queryClient.invalidateQueries({ queryKey: ['orders'] });
         }
     });
